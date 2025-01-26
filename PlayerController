@@ -3,7 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
-{
+{   
+    public enum Weapons //m3l4 
+    {
+        None,
+        Pistol,
+        Rifle,
+        MiniGun
+    }
+    Weapons weapons = Weapons.None; 
 
     [SerializeField] float movementSpeed = 5f; //almacena velocidad pj 
     float currentSpeed;//seguimiento velocidad pj 
@@ -17,7 +25,9 @@ public class PlayerController : MonoBehaviour
     bool isGrounded = true; 
     [SerializeField] Animator anim; 
 
-
+    [SerializeField] GameObject pistol, rifle, minigun; 
+    bool isPistol, isRifle, isMiniGun; 
+    
     void Start()
     {
        rb = GetComponent<Rigidbody>();  //referencia al rb
@@ -61,5 +71,47 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = true;
         anim.SetBool("Jump", false);
+    }
+
+     public void ChooseWeapon(Weapons weapons) //m3l4
+    {
+        anim.SetBool("Pistol", weapons == Weapons.Pistol);
+        anim.SetBool("Assault", weapons == Weapons.Rifle);
+        anim.SetBool("MiniGun", weapons == Weapons.MiniGun);
+        anim.SetBool("NoWeapon", weapons == Weapons.None);
+        pistol.SetActive(weapons == Weapons.Pistol);
+        rifle.SetActive(weapons == Weapons.Rifle);
+        miniGun.SetActive(weapons == Weapons.MiniGun);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        switch(other.gameObject.tag)
+        {
+        case "pistol":
+            if(!isPistol)
+            {
+                isPistol=true;
+                ChooseWeapon(Weapons.Pistol);
+            }
+            break;
+        case "rifle":
+            if(!isRifle)
+            {
+                isRifle=true;
+                ChooseWeapon(Weapons.Rifle);
+            }
+            break;
+        case "minigun":
+            if(!isMiniGun)
+            {
+                isMiniGun=true;
+                ChooseWeapon(Weapons.MiniGun);
+            }
+            break;
+        default:
+            break;
+        }
+        Destroy(other.gameObject);
     }
 }
