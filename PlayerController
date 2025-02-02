@@ -1,6 +1,5 @@
 using Unity.VisualScripting;
 using UnityEngine;
-
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
@@ -29,6 +28,7 @@ public class PlayerController : MonoBehaviour
     bool isGrounded = true;
 
     [SerializeField] Animator anim;   
+    [SerializeField] Image pistolUI, rifleUI, miniGunUI, cursor; 
     void Start()
     {        
         rb = GetComponent<Rigidbody>();
@@ -109,6 +109,15 @@ public class PlayerController : MonoBehaviour
         pistol.SetActive(weapons == Weapons.Pistol);
         rifle.SetActive(weapons == Weapons.Rifle);
         miniGun.SetActive(weapons == Weapons.MiniGun);
+
+        if(weapons != Weapons.None)
+        {
+           cursor.enabled=true;
+        }
+        else
+        {
+            cursor.enabled=false;
+        }
     }
     
     void FixedUpdate()
@@ -128,6 +137,7 @@ public class PlayerController : MonoBehaviour
                 if (!isPistol)
                 {
                     isPistol = true;
+                    pistolUI.color=Color.green;
                     ChooseWeapon(Weapons.Pistol);
                 }
                 break;
@@ -136,6 +146,7 @@ public class PlayerController : MonoBehaviour
                 if (!isRifle)
                 {
                     isRifle = true;
+                    rifleUI.color=Color.green;
                     ChooseWeapon(Weapons.Rifle);
                 }
                 break;
@@ -144,6 +155,7 @@ public class PlayerController : MonoBehaviour
                 if (!isMiniGun)
                 {
                     isMiniGun = true;
+                    miniGunUI.color=Color.green;
                     ChooseWeapon(Weapons.MiniGun);
                 }
                 break;
