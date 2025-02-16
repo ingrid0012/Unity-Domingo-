@@ -29,11 +29,14 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] Animator anim;   
     [SerializeField] Image pistolUI, rifleUI, miniGunUI, cursor; 
+    private int Health; //la salud del pj 
+
     void Start()
     {        
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         currentSpeed = movementSpeed;
+        Health = 100; 
     }
 
     void Update()
@@ -163,5 +166,17 @@ public class PlayerController : MonoBehaviour
                 break;
         }
         Destroy(other.gameObject);
-    }    
+    } 
+
+    public void ChangeHealth (int count)
+    {
+        Health -= count; //restado vida al jugador
+        if(Health<=0)
+        {
+          anim.SetBool("Die",true);//activa animacion muerte
+          ChooseWeapon(Weapons.None);//que el arma se fue 
+          this.enabled = false;//no nos vamos a mover
+
+        }
+    }
 }
