@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] protected int healt=100; //salud del enemigo
+    [SerializeField] protected int health=100; //salud del enemigo
     [SerializeField] protected float attackDistance = 3;//distancia ataque
     [SerializeField] protected int damage = 10;//daño al jugador
     [SerializeField] protected float cooldown = 2;//tiempo entre ataques 
